@@ -13,6 +13,7 @@
 @end
 
 @implementation PapaViewController
+@synthesize textFieldObject;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -91,16 +92,29 @@
         [self.view addSubview:label];
         
         // 答え入力
-        UITextField *tf = [[UITextField alloc] initWithFrame:CGRectMake(0, 450, 320, 50)];
+        UITextField *tf = [[UITextField alloc] initWithFrame:CGRectMake(0, 450, 270, 50)];
         [tf setDelegate:self];
         tf.borderStyle = UITextBorderStyleRoundedRect;
         tf.textColor = [UIColor blueColor];
         tf.placeholder = @"答えをにゅうりょくしてください";
         tf.clearButtonMode = UITextFieldViewModeAlways;
-        // 編集終了後フォーカスが外れた時にhogeメソッドを呼び出す
-        [tf addTarget:self action:@selector(hoge:)
-            forControlEvents:UIControlEventEditingDidEndOnExit];
+        // 編集終了後フォーカスが外れた時にprocessAnswerメソッドを呼び出す
+        textFieldObject = tf;
+        //[tf addTarget:self action:@selector(processAnswer:)
+        //    forControlEvents:UIControlEventEditingDidEndOnExit];
         [self.view addSubview:tf];
+        
+        // saveボタン
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        button.frame = CGRectMake(270, 450, 30, 50);
+        [button setTitle:@"送信"
+                forState:UIControlStateNormal];
+        [button sizeToFit];
+        [button addTarget:self action:@selector(saveAnswer:)
+         forControlEvents:UIControlEventTouchUpInside];
+        
+        // ボタンをビューに追加
+        [self.view addSubview:button];
     } else {
         // newにimageが無ければこっちが表示される
         NSMutableArray *oldImages = [NSMutableArray array];
@@ -144,11 +158,19 @@
     return CGSizeMake(100, 100);
 }
 
+
 // 呼ばれるhogeメソッド
--(void)hoge:(UITextField*)textfield{
+-(void)processAnswer:(UITextField*)textfield{
     // ここに何かの処理を記述する
     // （引数の textfield には呼び出し元のUITextFieldオブジェクトが引き渡されてきます）
+    [self saveAnswer:textfield];
 }
+
+// serverに保存する
+-(void)saveAnswer:(UITextField*)textfield {
+    NSLog(textFieldObject.text);
+}
+
 
 // キーボードのReturnボタンがタップされたらキーボードを閉じるようにする
 -(BOOL)textFieldShouldReturn:(UITextField*)textField{

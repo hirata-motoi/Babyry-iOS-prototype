@@ -13,5 +13,6 @@
     UICollectionView *_collectionView;
 }
 @property (strong, nonatomic) NSArray *array;
+@property (nonatomic,retain)UITextField *textFieldObject;
 
 @end

@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MamaViewController : UIViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIPopoverControllerDelegate>
+@interface MamaViewController : UIViewController<UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIPopoverControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 - (IBAction)OpenPhotoLibrary:(id)sender;
+@property (nonatomic,retain)NSData *selectedImage;
+@property (nonatomic,retain)NSMutableArray *quizes;
+@property int selectedQuizIndex;
 
 @end
